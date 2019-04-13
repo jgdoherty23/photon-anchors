@@ -15,8 +15,17 @@ namespace PhotonLearning
         [Tooltip("The prefab to use for representing the player")]
         public GameObject playerPrefab;
 
+        private GameObject floor;
+
         void Start()
         {
+            floor = GameObject.Find("Floor");
+
+            if (PhotonNetwork.NickName == "Jackson")
+            {
+                floor.transform.position += new Vector3(10, 0, 0);
+            }
+
             Instance = this;
 
             if (playerPrefab == null)
@@ -31,7 +40,7 @@ namespace PhotonLearning
                 {
                     Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
                     // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                    PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+                    PhotonNetwork.Instantiate(playerPrefab.name, floor.transform.position + new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
                 }
                 else
                 {
